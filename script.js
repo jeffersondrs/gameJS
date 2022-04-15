@@ -12,11 +12,13 @@ document.querySelector('.guess').value = 19;
 console.log(document.querySelector('.guess').value);
 */
 
-document.querySelector('.again').addEventListener('click', function() {
-  document.location.reload(true);
-})
-const secretNumber = Math.trunc(Math.random() * 20) + 1;
+// document.querySelector('.again').addEventListener('click', function() {
+//   document.location.reload(true);
+// })
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
+let highScore = 0;
+
 
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
@@ -31,6 +33,10 @@ document.querySelector('.check').addEventListener('click', function () {
     document.querySelector('.number').textContent = secretNumber;
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
+    if (score > highScore){
+    highScore = score;
+    document.querySelector('.highscore').textContent = highScore;
+    } 
   // quando o jogador digita um numero acima do permitido.
   } else if (guess > 20) {
     document.querySelector('.message').textContent =
@@ -60,3 +66,15 @@ document.querySelector('.check').addEventListener('click', function () {
     }
   }
 });
+
+document.querySelector('.again').addEventListener('click', function(){
+  score = 20;
+  secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+  document.querySelector('.message').textContent = 'Start guessing again...';
+  document.querySelector('.score').textContent = score;
+  document.querySelector('.number').textContent = '?';
+  document.querySelector('.guess').value = '';
+  document.querySelector('body').style.backgroundColor = '#222';
+  document.querySelector('.number').style.width = '15rem';
+})
