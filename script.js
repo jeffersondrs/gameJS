@@ -18,63 +18,52 @@ console.log(document.querySelector('.guess').value);
 let secretNumber = Math.trunc(Math.random() * 20) + 1;
 let score = 20;
 let highScore = 0;
-
+const displayMessage = function(message) {
+  document.querySelector('.message').textContent = message;
+}
 
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(document.querySelector('.guess').value);
   console.log(guess, typeof guess);
   // quando nao se coloca nenhum numero, assim como o jogador digita 0;
   if (!guess) {
-    document.querySelector('.message').textContent = '😒 No number!';
+    // document.querySelector('.message').textContent = '😒 No number!';
+    displayMessage('😒 No number!');
 
     // quando o jogador ganha
   } else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = 'Parabéns! ✌️🤩';
+    displayMessage('Parabéns! ✌️🤩');
     document.querySelector('.number').textContent = secretNumber;
     document.querySelector('body').style.backgroundColor = '#60b347';
     document.querySelector('.number').style.width = '30rem';
-    if (score > highScore){
-    highScore = score;
-    document.querySelector('.highscore').textContent = highScore;
-    } 
-  // quando o jogador digita um numero acima do permitido.
-  } else if (guess > 20) {
-    document.querySelector('.message').textContent =
-      'Saiu do planeta 🤦‍♂️ entre 1 e 20';
-  } 
-  // quando o numero é maior do que o numero secreto
-  else if (guess > secretNumber) {
-    if (score > 1) {
-      document.querySelector('.message').textContent = 'Passou demais 😉';
-      score--;
-      document.querySelector('.score').textContent = score;
-    } else {
-      document.querySelector('.message').textContent = 'Você perdeu! 😭';
-      document.querySelector('.score').textContent = 0;
-      document.querySelector('body').style.backgroundColor = 'red'
+    if (score > highScore) {
+      highScore = score;
+      document.querySelector('.highscore').textContent = highScore;
     }
-  } 
-  // quando o numero é menor que o numero secreto
-  else if (guess < secretNumber) {
+    // quando o jogador digita um numero acima do permitido.
+  } else if (guess > 20) {
+    displayMessage('Saiu do planeta 🤦‍♂️ entre 1 e 20');
+  } else if (guess !== secretNumber) {
     if (score > 1) {
-      document.querySelector('.message').textContent = 'Muito baixo 🤣';
+      displayMessage(guess > secretNumber ? 'Passou demais 😉' : 'Muito baixo 🤣');
       score--;
       document.querySelector('.score').textContent = score;
     } else {
-      document.querySelector('.message').textContent = 'Você perdeu! 😭';
+      displayMessage('Você perdeu! 😭');
       document.querySelector('.score').textContent = 0;
+      document.querySelector('body').style.backgroundColor = 'red';
     }
   }
 });
 
-document.querySelector('.again').addEventListener('click', function(){
+document.querySelector('.again').addEventListener('click', function () {
   score = 20;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
 
-  document.querySelector('.message').textContent = 'Tente novamente...';
+  displayMessage('Tente novamente...');
   document.querySelector('.score').textContent = score;
   document.querySelector('.number').textContent = '?';
   document.querySelector('.guess').value = '';
   document.querySelector('body').style.backgroundColor = '#222';
   document.querySelector('.number').style.width = '15rem';
-})
+});
